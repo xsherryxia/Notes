@@ -1,0 +1,64 @@
+Presentation Notes:
+11/5/2013
+Presentation was recorded…
+Import curate_util as CU
+Catalog = CU…
+Convert ‘MAG’ to float
+Curators also crated the ppx which the analyzers requested. 
+Outputs date range for visualizer for the earthquakes….
+Look at certain packages and figure out how to use them…
+Look at Luen’s visualizations.
+
+$
+Histogram of permutation test
+Graphic of magnitude of earthquakes
+CDF of ETAS model gamma nu and empirical models…
+Error diagram
+
+#
+Skeleton code for accessing the dataframe…
+
+Q
+Understanding ETAS
+Can access the presentation here: Bit.ly/….
+ETAS presumes that seismicity follows the Poisson process
+Ripal effects fits the omori law
+ETAS library in R. Modeling the aftershocks.
+Etas()
+Calculate the conditional intensity, turn on alarm, ….
+Helps us find T and v….
+
+Heart group
+Compare and contrast different models…
+
+Big picture: 
+Curators as communicators and checkers at the end of the process since curators might finish early. USGIS code….
+ETAS R package form
+Weekly meetings for presenters. To update each other…
+Look at the background issue and respond. Names issues. Figure out who is in what group.
+
+Aaron’s feedback:
+See if reflections are addressed….
+Etas package not so useful. Another package might be better.
+Comparing ETAS v. MDA 
+We need to decide the magnitude range (lower and upper bound) , geospatial boundaries, 
+We need to decide which ETAS model to use: Comparing against a strongest version of the ETAS model.
+Three different packages that would suffice for what we are doing.
+ETAS/SAPP/PtProcess (leaning towards SAPP)
+What data are we going to compare….
+This is posted as an issue.
+How do we check those assumptions? Invite Luen on the 12th, also Richard Allan, data lab, etc.
+
+
+
+
+Notes for our group:
+
+Roadblocks:
+•	ppx is not helpful
+•	Divide curators and assign to check other groups’ work.
+•	Communication with the other curator group.
+o	 bit.ly/stat157_notes
+•	Set to use SAPP package instead: still okay, CSV.
+•	
+
