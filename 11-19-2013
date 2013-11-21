@@ -1,7 +1,9 @@
 11/19/2013
-Time with Professor Luen: Broken hard drive-he is missing the last part of his code which he will try to recover.
 
-What we are trying to do:
+=======================
+#Error Diagrams
+
+##What we are trying to do:
 -Create an error diagram
 -We want this for the ETAS and the alarm model that we are trying to evaluate.
 -ETAS first (v on vertical, and T on horizontal)
@@ -9,84 +11,168 @@ What we are trying to do:
 -High values of lambda on left side, low values on the right side.
 -We can think of it as the threshold at which we turn on the alarm
 
-How do we evaluate tau?
+##How do we evaluate tau?
 -Proportion of time that the alarm would be on. Turn on when conditional intensity exceeds lambda.
--Evaluate the conditional intensity on a grid of times, 
--Where to find nu we can evaluate the conditional intensity on a grid of 
--Want to do this on a test set , set up times from beginning to end, evaluate conditional intensity at each of these times. 
+-Evaluate the conditional intensity on a grid of times. 
+
+##How do we evaluate nu?
+-We can evaluate the conditional intensity on a grid of times.
+-Want to do this on a test set, set up times from beginning to end, evaluate conditional intensity at each of 
+these times. 
 -Instead of at some fixed time, evaluate at the event times.
--Let’s say the event conditional intensity just before the event is 1, what proportion has less than 1. 
--Nu is the proportion of earthquakes you are allowed to miss, 
--If threshold is lambda, proportion of events just beforehand that is less than the value lambda…
+-Let’s say the event conditional intensity just before the event is 1, what proportion has less than 1?
+-Nu is the proportion of earthquakes you are allowed to miss.
+-If threshold is lambda, proportion of events just beforehand that is less than the value lambda.
 
-Characterize error diagram in terms of window length. Window lengths is the other way around. As window length goes up we capture more space. From left to right we increase window length.
-Take window length, figure out what proportion of time you get when you choose that window length.
+###Two approaches to the error diagrams:
 
-Maybe better to characterize everything in lambda:
-Work in terms of the conditional intensity and then translate that into window length. Should get same results either way.
+##Characterize error diagram in terms of window length:
+-Window lengths is the other way around. As window length goes up we capture more space. 
+-From left to right we increase window length.
+-Take window length, figure out what proportion of time you get when you choose that window length.
 
-Translate window length to lambda….
-For a particular window length we can say if you are just using a window length, use interrarival times as the only thing in our prediction, and then we can deduce a function lambda from the intearrival times by find the CDF and differentiate that to get the PDF. 
-The absolute value for lambda doesn’t matter for the error diagram.
+##Characterize everything in terms of lambda:
+-Work in terms of the conditional intensity
+-Then translate that into window length. 
+-Should get same results either way.
+
+##Translate window length to lambda:
+-For a particular window length we can say if you are just using a window length, use interrarival times
+as the only thing in our prediction, and then we can deduce a function lambda from the intearrival 
+times by find the CDF and differentiate that to get the PDF. 
+-The absolute value for lambda doesn’t matter for the error diagram.
 Eg. Lambda = 1/w that would be wrong for the abosolute value of earthquake (predict), ….
-
 Automatic alarm to magnitude dependent alarm, not much change, 
 Just adjusting for magnitude. IT’s the same principle that we had in MDA alarms. 
 
-So let’s look at the code that he uploaded. Test catalog. SoCal….
-SCEC 1984-2010
-Time and mag variable.
-Time: days after beginning of 1984. Measured in days. 
-18 of june 2004 (start date)
-
-Write a function to calculate cond. Intensity:
-Be careful of that there are two definitions of alpha. 10 to the power or e to the power of something. Which version are we using and what version is other people using. How would be know? They explicitly indicate this usually. Assumption is 10 to the power…
-Simulate, if too many events, then it is wrong?...
-
-Use moment or body width magnitude?
-Sweep under the carpet. Doesn’t much practical differences. Did thesis indicate which one he used?
-
-High end:
-Body width, hard to get above a certain value. Have to use actual moment magnitudes. 
-Lower down: differences pretty trivial
-Contributions of the smaller earthquakes is trivial.
-
-Matter during the few days after an earthquake. Differences show up for bigger earthquakes.
-Code is trying to do 4 things:
-1.	Ci.dst suffix, trying to the find the temporal distribution of the cond. Densities. Apply to test set, apply to test periods.Training set: from beining to end, spacing of one day. Evaluate either lambda for ETAS models or the window length parameter w or w2. Evaluate all of these things on a grid of time points, not much benefit to use random time points. So used evenly spaced grids. To get Tau in the error diagrams.
-2.	.list find cond. Intensity or window length at the time the events occur. If we do this to test set ,we want to do everything in the test set. Find Tau, and find nu. Fro this particular event I had lambda of 5, what proportion of events had lambda less or greater than 5. Proportion less than 5 is the value of nu that corresponds to lambda at the time your event occurred. DSN of lambda of tau and lambda of nus put together to get the error diagrams. How many values of lambda should we check? 8,000 he used. In training and test set together. A few thousand labmdas is enough to draw the error diagrams. How to vary parameters to draw error diagrams. Found parameter that was best on the training set and the problem was simple enough that was done through trail and error. Apply it to a grid fo possible grid of alphas. Apply to the grid and see how well you do. Find area under error diagram? (find the tuning parameter?) what should we focus on in the limited time given?
-End goal is to beat ETAS. His did not quite beat ETAS. Need some different kind of approach. Work out the exactly how or why ETAS does do better than the MDA alarms. Think fo ETAS as having different component to it. Scales by magnitude, by time, take sum over all events… for lots of diff. things in the model. Which of these things are actually working than a naïve approach. Which parts of ETAS are actually for its performance. Might make it easier to beat ETAS. Find out that mag. Scaling work really well, but not time. … smarter way to do time scaling….
-Mag. Dependent alarms, use mag. And time but still not doing quite as well as ETAs. Maybe something in summation that is making ETAS perform better. Simple thing might not be able to beat ETAS. Should beat able to beat ETAS if you sum up the right things. Things that go into the summation in the ETAS model are not particularly sophisticated. Based on rules of thumb, not scientific, or something that has a strong empirical basis! Summation might be something that is making ETAS doing better. We might end up with a complex model, going against the original motivation for MDA alarms. ETAS has a physical basis, but not convincing.
-Optimize predictions that we have. The summation is hard to justify in terms fo physics? Kind fo arbitrary….
-How might we do with a simple model. Simple and be able to really tie to physics is hard?
-Fit functional form that is basically better than what is used in MDA. Maybe there is a parametric technique you can use to get a simple output.  Interpret in terms of physics…..
-Plot and get physicists to explain….
-Get prediction by going to summation side fo thigns.
-
-There is ETAS which si complicated, there are other models which are seemingly simple, there is a place in the middle, less complicated in ETAS but 
 
 
-1.	One way: more complicated than MDA. Might be able to beat ETAS. Does have interpretability and maybe have physical basis.
-2.	Or get something that predict something as well as possible, can be much more complicated. Can beat ETAS that way, at the expense of having something interpretable.
+==========================
+#Clarifications on Luen's Code:
 
-Optimization or machine learning problem? For the second approach.
-•	Stark suggested piece wise linear function… difficult computationally….
-•	Processing might be difficult. Would take a while.
-•	Another idea is if tau is so high that people will stop caring about the alrms:
-•	Cut off tau and get the area after that. Tau = .25 
-•	Conceivably you can be a lot more aggressive than that. Don’t just capture immediate aftershocks after large earthquakes….more physically useful criteria.
-•	Left 10 portion of the curve is reasonable.
-•	Another idea is to consider only earthquakes of certain size:
-•	Will reduce the computation fo the amount if you have to do. Might not matter otherwise.
-•	Vary with values fo tau….
-•	Difference on prediction should be trivial if you do it correctly….
-Quakers Roadblock:
-Luen's code took us most of time while still have no clue about how he picked his parameters for his ETAS models and where is the parameter K in Ku^M embeded in his code. (We will ask Disi, who contacts with Luen, to address these questions to Luen)
+##Luen's Code
+-The test catalog he used was SCEC data from 1984-2010
 
-Couldn’t find the parameter k in his code….
-Write back as to what he did…..The question is ….how did you implement the parameter that sweeps through the levels of tau for magnitude dependent alarm.
-On a test data set, whether an earthquake was in the window of the previous earthquake or not. Computationally intensive, overlapping windows…. 
-aNext Time:
-Collect a list of questions….. time wise…. 
+##Time and mag variable:
+-Time: Days after beginning of 1984. Measured in days. 
+-Start Date: 18th of june 2004 
+
+##Write a function to calculate cond. Intensity:
+-Be aware that there are two definitions of alpha. 
+
+##Ci.dst suffix: 
+-Trying to the find the temporal distribution of the cond. 
+-Densities. Apply to test set, apply to test periods. 
+-Training set: from beining to end, spacing of one day. 
+-Evaluate either lambda for ETAS models or the window length parameter w or w2. 
+-Evaluate all of these things on a grid of time points, not much benefit to use random time points. 
+-So used evenly spaced grids. To get Tau in the error diagrams.
+
+##.list 
+-Find cond. Intensity or window length at the time the events occur. 
+-If we do this to test set ,we want to do everything in the test set. 
+-Find Tau, and find nu. 
+-For this particular event I had lambda of 5, what proportion of events had lambda less or greater than 5. 
+-Proportion less than 5 is the value of nu that corresponds to lambda at the time your event occurred. 
+-Distribution of lambda of tau and lambda of nus put together to get the error diagrams. 
+
+
+=============
+#what should we focus on in the limited time given?
+-End goal is to beat ETAS which Professor Luen's model did not quite do. 
+-Need some different kind of approach. 
+-Work out the exactly how or why ETAS does do better than the MDA alarms. 
+-Think fo ETAS as having different component to it. Scales by magnitude, by time, take sum over all events… 
+for lots of diff. things in the model. Which of these things are actually working than a naïve approach. 
+-Which parts of ETAS are actually for its performance. Might make it easier to beat ETAS. 
+-Find out that mag. Scaling work really well, but not time. … smarter way to do time scaling….
+-Mag. Dependent alarms, use mag. And time but still not doing quite as well as ETAs. 
+Maybe something in summation that is making ETAS perform better. 
+Simple thing might not be able to beat ETAS. Should beat able to beat ETAS if you sum up the right things. 
+Things that go into the summation in the ETAS model are not particularly sophisticated. 
+Based on rules of thumb, not scientific, or something that has a strong empirical basis! 
+Summation might be something that is making ETAS doing better. 
+We might end up with a complex model, going against the original motivation for MDA alarms. 
+ETAS has a physical basis, but not convincing.
+Optimize predictions that we have. The summation is hard to justify in terms of physics.  
+
+#How might we do with a simple model? Simple and be able to really tie to physics is hard?
+-Fit functional form that is basically better than what is used in MDA. Maybe there is a parametric 
+-technique you can use to get a simple output.  Interpret in terms of physics…..
+-Plot and get physicists to explain it.
+-Get prediction by going to summation side of things.
+
+#This boils down to two options for us:
+-There is ETAS which is complicated and there are other models which are seemingly simple, 
+there is a place in the middle, less complicated in ETAS but more complicated than MDA.
+
+##One approach which we can take: 
+-Produce something that is more complicated. (more complicated than MDA but less complicated in the ETAS) which MIGHT be
+able to beat ETAS. 
+###Consequences:
+-Does have interpretability and maybe have physical basis.
+
+##Another approach which we can take: 
+-Produce something that is very complicated. (more complicated than MDA and ETAS) which has a HIGHER CHANCE of beating
+ETAS.
+###Consequences:
+-Pro: Can beat ETAS that way, at the expense of having something interpretable.
+-Con: Has little interpretability and little physical basis
+
+
+========================
+#Other questions that were addressed during this time:
+
+##10 or e as the base?
+-We must be cognizant of which version are we using this and what version other people are using. 
+-How would be know? They explicitly indicate this usually. 
+-If data does not indicate this, assume that the base is 10.
+-If you are still not sure, simulate the data, if too many events, then it is wrong.
+
+##Use moment or body width magnitude?
+-Sweep under the carpet for now. 
+-Doesn’t much practical differences. 
+-He doesn't quite remember which one he used in the thesis.
+
+##High end:
+-Body width, hard to get above a certain value. Have to use actual moment magnitudes. 
+-Lower down: the differences are pretty trivial
+-Contributions of the smaller earthquakes is trivial.
+-Matter during the few days after an earthquake. Differences show up for bigger earthquakes.
+
+##Optimization or machine learning problem? (For the second approach.)
+-Stark suggested piece wise linear function… difficult computationally….
+-Processing might be difficult. Would take a while. 
+-Another idea is if tau is so high that people will stop caring about the alrms:
+-Cut off tau and get the area after that. Tau = .25 
+-Conceivably you can be a lot more aggressive than that. 
+-Don’t just capture immediate aftershocks after large earthquakes….more physically useful criteria.
+-Left 10 portion of the curve is reasonable.
+-Another idea is to consider only earthquakes of certain size:
+-Will reduce the computation fo the amount if you have to do. Might not matter otherwise.
+-Vary with values fo tau….
+-Difference on prediction should be trivial if you do it correctly….
+
+##We couldn’t find the parameter k in his code? (Specifically, where is the parameter K in Ku^M embeded in his code?)
+-Will write back as to what he did.
+-How did you implement the parameter that sweeps through the levels of tau for magnitude dependent alarm?
+On a test data set, whether an earthquake was in the window of the previous earthquake or not. 
+-Computationally intensive, overlapping windows…. 
+
+##How many values of lambda should we check? 
+-8,000 he used. In training and test set together. 
+-A few thousand labmdas is enough to draw the error diagrams. 
+
+##How to vary parameters to draw error diagrams?
+-Found parameter that was best on the training set and the problem was simple enough that was done through 
+trial and error. 
+-Apply it to a grid fo possible grid of alphas. 
+-Apply to the grid and see how well you do. Find area under error diagram? (find the tuning parameter?) 
+
+===================
+#Next Time:
+-Collect a list of questions for professor Luen
+-In light of the time and resources available, we must ecide on the direction of our project based on Luen's suggestions 
+so far.
 
 
